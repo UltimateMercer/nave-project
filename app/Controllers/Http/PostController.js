@@ -1,11 +1,12 @@
 'use strict'
 
-//const { validate } = use('Validator')
-//const Post = use('App/Models/Post')
+const { validate } = use('Validator')
+//const Database = use("Database");
+const Post = use('App/Models/Post')
 
 class PostController {
   async index({ response }) {
-    //
+    response.json(await Post.all())
   }
 
   async show({ params, response }) {
@@ -31,7 +32,7 @@ class PostController {
       text: 'required|string'
     }
 
-    const validation = await Validate(newPostData, rules)
+    const validation = await validate(newPostData, rules)
 
     if (validation.fails()) {
       response.badRequest(validate.messages())
@@ -39,13 +40,27 @@ class PostController {
     }
 
     const post = new Post()
-    Post.author = newPostData.author
-    Post.title = newPostData.title
-    Post.text = newPostData.text
+    post.author = newPostData.author
+    post.title = newPostData.title
+    post.text = newPostData.text
+
+    //Database only for
+
+    // const baseTime = new Date()
+
+    // let data2 = new Date(baseTime.valueOf() - baseTime.getTimezoneOffset() * 60000)
+    // const time = data2.toISOString().replace(/\.\d{3}Z$/, '')
+
+    // const insertPost = await Database
+    //   .insert({ author: post.author, title: post.title, text: post.text, created_at: time, updated_at: time })
+    //   .into('posts')
+    //   .returning('id')
+
+    // response.json(insertPost)
 
     await post.save()
-
     response.json(post)
+
   }
 
   async update({ params, request, response }) {
@@ -72,7 +87,7 @@ class PostController {
       text: 'string'
     }
 
-    const validation = await Validate(newPost, rules)
+    const validation = await validate(newPost, rules)
 
     if (validation.fails()) {
       response.badRequest(validate.messages())
