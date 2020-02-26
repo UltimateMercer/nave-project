@@ -71,19 +71,20 @@ module.exports = {
   pg: {
     client: 'pg',
     connection: {
-      host: Env.get('DB_HOST', 'tuffi.db.elephantsql.com'),
-      port: Env.get('DB_PORT', '5432'),
-      user: Env.get('DB_USER', 'cjuszaqw'),
-      password: Env.get('DB_PASSWORD', 'g-O2aVA_todh2juZ8QjeLQkbyzFR_sHB'),
-      database: Env.get('DB_DATABASE', 'cjuszaqw')
-    },
-    pool: {
-      afterCreate: function (connection, callback) {
-        connection.query('SET timezone = "America/Sao_Paulo"', function (err) {
-          callback(err, connection)
-        })
-      }
+      host: Env.get('DB_HOST', ''),
+      port: Env.get('DB_PORT', ''),
+      user: Env.get('DB_USER', ''),
+      password: Env.get('DB_PASSWORD', ''),
+      database: Env.get('DB_DATABASE', '')
     }
+    // pool: {
+      // afterCreate: function (connection, callback) {
+        //callback()
+        //  connection.query('SET timezone = "UTC"', function (err) {
+          // callback(err, connection)
+        // })
+      // }
+    // }
   }
 }
 
